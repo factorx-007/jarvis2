@@ -68,7 +68,7 @@ if "!ENV_EXISTS!"=="0" (
 ) else (
     echo [OK] Archivo .env configurado correctamente.
 )
-
+ 
 :: 3. Instalar dependencias usando python -m pip
 echo.
 echo [3/5] Verificando e instalando dependencias (puede tardar la primera vez)...
