@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juan Core - Akatsuki</title>
+    <meta name="description" content="Dashboard de control con temática de Itachi Uchiha">
+    
+    <!-- Fuentes elegantes -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;500&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Animate.css para animaciones fluidas -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="akatsuki-bg">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+    </div>
+    
+    <header class="hero-header animate__animated animate__fadeInDown">
+        <div class="logo-area">
+            <div class="sharingan-icon">
+                <div class="tomoe tomoe-1"></div>
+                <div class="tomoe tomoe-2"></div>
+                <div class="tomoe tomoe-3"></div>
+            </div>
+            <h1>JUAN <span class="ai-badge">Mangekyou AI</span></h1>
+        </div>
+        <div class="status-badge" id="ws-status">
+            <span class="status-dot"></span>
+            <span id="ws-text">Observando.</span>
+        </div>
+    </header>
+
+    <main class="dashboard-layout">
+        <!-- CHAT PRINCIPAL -->
+        <section id="chat-section" class="chat-section akatsuki-card animate__animated animate__fadeInLeft">
+            <h2><span class="glitch-text" data-text="GENJUTSU_">GENJUTSU_</span> INTERFACE</h2>
+            <div class="chat-container" id="chat-container">
+                <div class="chat-bubble bot-bubble animate__animated animate__fadeInUp">
+                    Estás bajo mi ilusión. Dime qué necesitas.
+                </div>
+            </div>
+            
+            <div class="chat-input-area">
+                <input type="text" id="mock-voice" placeholder="Romper el silencio..." autocomplete="off">
+                <button id="btn-send">Someter</button>
+            </div>
+        </section>
+
+        <!-- PANEL LATERAL -->
+        <aside class="sidebar animate__animated animate__fadeInRight">
+            <section id="quick-actions-section" class="sidebar-card akatsuki-card">
+                <h3>JUTSUS (Macros)</h3>
+                <div class="quick-actions">
+                    <button class="quick-btn" data-cmd="abre google">🌐 Google</button>
+                    <button class="quick-btn" data-cmd="busca en youtube musica">🎵 YouTube</button>
+                    <button class="quick-btn" data-cmd="sube el volumen">🔊 Vol +</button>
+                    <button class="quick-btn" data-cmd="baja el volumen">🔉 Vol -</button>
+                    <button class="quick-btn" data-cmd="reproduce">⏯️ Play</button>
+                    <button class="quick-btn" data-cmd="que hora es">🕒 Hora</button>
+                    <button class="quick-btn" data-cmd="bloquea la pantalla">🔒 Bloquear</button>
+                    <button class="quick-btn" data-cmd="captura de pantalla">📸 Captura</button>
+                </div>
+            </section>
+
+            <section id="terminal-section" class="sidebar-card akatsuki-card">
+                <h3>REGISTROS OCULTOS</h3>
+                <div class="terminal-log" id="terminal-log">
+                    <div class="log-entry animate__animated animate__fadeIn">
+                        <span class="log-time">[Sistema]</span>
+                        <span class="log-text">Tsukuyomi iniciado...</span>
+                    </div>
+                </div>
+            </section>
+        </aside>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvis - Asistente Virtual</title>
+    <meta name="description" content="Dashboard de control y monitoreo del asistente virtual Jarvis">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🤖 Jarvis Dashboard</h1>
+        <div class="status-badge" id="ws-status">
+            <span class="status-dot"></span>
+            <span id="ws-text">Conectando...</span>
+        </div>
+    </header>
+
+    <main>
+        <section id="terminal-section">
+            <h2>📜 Historial de Interacciones</h2>
+            <div class="terminal-log" id="terminal-log">
+                <!-- Los logs aparecerán aquí -->
+                <div class="log-entry">
+                    <span class="log-time">Sistema</span>
+                    <span class="log-text">Esperando interacciones de voz...</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="app-manager" class="app-manager">
+            <h2>⚙️ Configuración (Test)</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
+                Envía un comando manual al sistema emulando la voz.
+            </p>
+            <div class="input-group">
+                <label for="mock-voice">Comando de voz manual</label>
+                <input type="text" id="mock-voice" placeholder="Ej. abre la calculadora">
+            </div>
+            <button id="btn-send">Enviar Comando</button>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

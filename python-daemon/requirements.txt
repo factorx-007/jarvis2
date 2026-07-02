@@ -1,0 +1,10 @@
+SpeechRecognition>=3.10.1
+pyaudio
+websockets==12.0
+psutil==5.9.8
+pygetwindow
+playwright
+edge-tts
+pygame
+pyautogui
+openai
