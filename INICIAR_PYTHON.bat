@@ -76,17 +76,56 @@ python -m pip install -r requirements.txt
 if %ERRORLEVEL% NEQ 0 (
     echo.
     echo =======================================================================
-    echo  [ERROR] Hubo un problema al instalar las dependencias de Python.
-    echo  Posibles causas:
-    echo   - No tienes conexion a Internet.
-    echo   - PyAudio fallo al compilar. Asegurate de tener herramientas C++ de Visual Studio
-    echo     o descarga un archivo wheel precompilado para tu version de Python.
+    echo  [!] La instalacion general de dependencias fallo.
+    echo  Intentando instalar paquetes individualmente para diagnosticar...
     echo =======================================================================
     echo.
-    pause
-    exit /b 1
+    
+    set "FAILED_PACKAGES="
+    for /f "usebackq delims=" %%i in ("requirements.txt") do (
+        echo Instalando %%i...
+        python -m pip install "%%i"
+        if !ERRORLEVEL! NEQ 0 (
+            set "FAILED_PACKAGES=!FAILED_PACKAGES! %%i"
+        )
+    )
+    
+    if not "!FAILED_PACKAGES!"=="" (
+        echo.
+        echo =======================================================================
+        echo  [ERROR] Los siguientes paquetes fallaron al instalarse:
+        echo  !FAILED_PACKAGES!
+        echo.
+        echo  Soluciones recomendadas para problemas comunes:
+        
+        :: Buscar si pyaudio fallo
+        echo !FAILED_PACKAGES! | findstr /i "pyaudio" >nul
+        if !ERRORLEVEL! equ 0 (
+            echo  * pyaudio: Requiere herramientas de desarrollo de C++ de Visual Studio.
+            echo           Como alternativa, puedes descargar e instalar un archivo .whl
+            echo           precompilado adecuado para tu version de Python (p. ej. de PyPI
+            echo           o repositorios comunitarios).
+        )
+        
+        :: Buscar si pygame fallo
+        echo !FAILED_PACKAGES! | findstr /i "pygame" >nul
+        if !ERRORLEVEL! equ 0 (
+            echo  * pygame: En versiones experimentales de Python como 3.14, no hay wheels 
+            echo          precompilados. Se recomienda usar Python 3.10, 3.11 o 3.12.
+        )
+        
+        echo.
+        echo  Prueba tambien a actualizar pip ejecutando: python -m pip install --upgrade pip
+        echo =======================================================================
+        echo.
+        pause
+        exit /b 1
+    ) else (
+        echo [OK] Dependencias instaladas individualmente de forma exitosa.
+    )
+) else (
+    echo [OK] Dependencias de Python listas.
 )
-echo [OK] Dependencias de Python listas.
 
 :: 4. Instalar los navegadores de Playwright necesarios
 echo.

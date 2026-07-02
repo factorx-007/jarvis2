@@ -5,6 +5,5 @@ psutil==5.9.8
 pygetwindow
 playwright
 edge-tts
-pygame
 pyautogui
 openai
