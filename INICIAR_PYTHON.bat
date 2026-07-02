@@ -1,13 +1,24 @@
 @echo off
+setlocal enabledelayedexpansion
 title Juan - Sistema Nervioso (Python)
+
 echo.
 echo  =============================================
 echo    JUAN - Asistente Virtual Personal
 echo    Iniciando el Sistema Nervioso (Python)...
 echo  =============================================
 echo.
-cd /d "%~dp0\python-daemon"
+
+:: Guardar el directorio raíz del script de forma absoluta y robusta
+set "ROOT_DIR=%~dp0"
+:: Remover comillas y espacios extras si los hay
+set "ROOT_DIR=%ROOT_DIR:"=%"
+set "PYTHON_DIR=%ROOT_DIR%python-daemon"
+
+cd /d "%PYTHON_DIR%"
+
 :: 1. Verificar si Python está instalado
+echo [1/5] Verificando instalacion de Python...
 where python >nul 2>nul
 if %ERRORLEVEL% NEQ 0 (
     echo.
@@ -24,64 +35,116 @@ if %ERRORLEVEL% NEQ 0 (
     pause
     exit /b 1
 )
-:: 2. Crear el archivo .env si no existe
-if not exist .env (
+
+:: Mostrar versión de Python encontrada
+python --version
+echo.
+
+:: 2. Crear o verificar el archivo .env
+echo [2/5] Verificando archivo de configuracion .env...
+set "ENV_EXISTS=0"
+if exist .env (
+    findstr "OPENROUTER_API_KEY=" .env >nul 2>nul
+    if !ERRORLEVEL! equ 0 (
+        set "ENV_EXISTS=1"
+    )
+)
+
+if "!ENV_EXISTS!"=="0" (
+    echo.
     echo =======================================================================
-    echo  [!] No se encontro el archivo de configuracion .env
-    echo  Por favor, introduce tu API Key de OpenRouter para la IA
+    echo  [!] No se encontro la clave API de OpenRouter en .env
+    echo  Por favor, introduce tu API Key de OpenRouter para la IA.
+    echo  Debe comenzar con sk-or-
     echo =======================================================================
     echo.
-    set /p USER_API_KEY="API Key (comienza con sk-or-): "
-    
-    :: Escribir en el archivo .env
-    echo OPENROUTER_API_KEY=%USER_API_KEY%> .env
+    set /p USER_API_KEY="API Key: "
+    set "USER_API_KEY=!USER_API_KEY:"=!"
+    set "USER_API_KEY=!USER_API_KEY: =!"
+    echo OPENROUTER_API_KEY=!USER_API_KEY!> .env
     echo.
     echo [OK] Archivo .env creado con exito.
     echo.
+) else (
+    echo [OK] Archivo .env configurado correctamente.
 )
-:: 3. Instalar dependencias usando python -m pip (más seguro que pip solo)
-echo [1/3] Verificando e instalando dependencias (puede tardar la primera vez)...
-python -m pip install -r requirements.txt -q
+
+:: 3. Instalar dependencias usando python -m pip
+echo.
+echo [3/5] Verificando e instalando dependencias (puede tardar la primera vez)...
+python -m pip install -r requirements.txt
 if %ERRORLEVEL% NEQ 0 (
     echo.
     echo =======================================================================
     echo  [ERROR] Hubo un problema al instalar las dependencias de Python.
-    echo  Intentaremos instalarlas de nuevo mostrando los detalles del error.
+    echo  Posibles causas:
+    echo   - No tienes conexion a Internet.
+    echo   - PyAudio fallo al compilar. Asegurate de tener herramientas C++ de Visual Studio
+    echo     o descarga un archivo wheel precompilado para tu version de Python.
     echo =======================================================================
     echo.
-    python -m pip install -r requirements.txt
     pause
     exit /b 1
 )
+echo [OK] Dependencias de Python listas.
+
 :: 4. Instalar los navegadores de Playwright necesarios
-echo [2/3] Instalando binarios de Playwright (Navegador)...
-python -m playwright install chromium
+echo.
+echo [4/5] Verificando Playwright Chromium...
+python -c "from playwright.sync_api import sync_playwright; p = sync_playwright().start(); p.chromium.launch(headless=True); p.stop()" >nul 2>nul
+if %ERRORLEVEL% NEQ 0 (
+    echo Playwright Chromium no esta instalado. Instalando navegador...
+    python -m playwright install chromium
+    if %ERRORLEVEL% NEQ 0 (
+        echo.
+        echo =======================================================================
+        echo  [WARNING] Hubo un problema al instalar los binarios de Playwright.
+        echo  El control del navegador [abrir webs, YouTube] podria no funcionar.
+        echo  Revisa tu conexion a Internet o intenta ejecutar manualmente:
+        echo  python -m playwright install chromium
+        echo =======================================================================
+        echo.
+        pause
+    )
+) else (
+    echo [OK] Playwright Chromium esta listo.
+)
+
+:: 5. Verificar si hay un micrófono activo en el sistema
+echo.
+echo [5/5] Verificando dispositivo de microfono...
+python -c "import sys, pyaudio; p = pyaudio.PyAudio(); count = p.get_device_count(); p.terminate(); sys.exit(0) if count > 0 else sys.exit(1)" 2>nul
 if %ERRORLEVEL% NEQ 0 (
     echo.
     echo =======================================================================
-    echo  [WARNING] Hubo un problema al instalar los binarios de Playwright.
-    echo  El control del navegador (abrir webs, YouTube) podria no funcionar.
-    echo  Revisa tu conexion a Internet o intenta ejecutar manualmente:
-    echo  python -m playwright install chromium
+    echo  [WARNING] No se detecto un microfono activo en tu sistema.
+    echo  El reconocimiento de voz [STT] de Juan no funcionara.
+    echo.
+    echo  Soluciones:
+    echo   1. Conecta un microfono a tu equipo.
+    echo   2. Ve a la Configuracion de Sonido de Windows y asegurate de que 
+    echo      este habilitado e introduciendo audio.
     echo =======================================================================
     echo.
-    pause
+    set /p PROCEED_MIC="Deseas iniciar de todas formas? [S/N]: "
+    if /i "!PROCEED_MIC!" NEQ "S" (
+        exit /b 1
+    )
+) else (
+    echo [OK] Microfono activo detectado.
 )
+
 echo.
-echo [3/3] Arrancando reconocimiento de voz y automatizacion...
+echo =======================================================================
+echo  Arrancando reconocimiento de voz y automatizacion...
+echo =======================================================================
 echo.
 python main.py
 if %ERRORLEVEL% NEQ 0 (
     echo.
     echo =======================================================================
     echo  [ERROR] El demonio de Python se detuvo de forma inesperada (Codigo: %ERRORLEVEL%).
-    echo.
-    echo  Soluciones rapidas para problemas comunes:
-    echo   1. Error de Microfono: Verifica que tu microfono este conectado y
-    echo      configurado como dispositivo de grabacion predeterminado.
-    echo   2. Error PyAudio: Si da fallas al compilar PyAudio, asegurate de tener
-    echo      las herramientas de desarrollo de C++ instaladas o usa un paquete precompilado.
-    echo   3. Error de Conexión: Verifica tu conexion a Internet.
+    echo  Revisa los errores detallados arriba.
     echo =======================================================================
     echo.
     pause
