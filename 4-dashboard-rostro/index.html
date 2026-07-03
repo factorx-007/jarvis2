@@ -56,6 +56,10 @@
             <section id="quick-actions-section" class="sidebar-card akatsuki-card">
                 <h3>JUTSUS (Macros)</h3>
                 <div class="quick-actions">
+                    <button class="quick-btn" id="btn-report">Generar Reporte</button>
+                    <button class="quick-btn" id="btn-scan">Escaneo de Red</button>
+                    <button class="quick-btn" id="btn-clean">Limpieza OS</button>
+                    <button class="quick-btn" id="btn-config-api" style="color: var(--akatsuki-red); border-color: var(--akatsuki-red);">Configurar API Key</button>
                     <button class="quick-btn" data-cmd="abre google">🌐 Google</button>
                     <button class="quick-btn" data-cmd="busca en youtube musica">🎵 YouTube</button>
                     <button class="quick-btn" data-cmd="sube el volumen">🔊 Vol +</button>
@@ -78,6 +82,29 @@
             </section>
         </aside>
     </main>
+
+    <!-- Modal de Consola Oculta -->
+    <div id="debug-modal" class="modal hidden">
+        <div class="modal-content akatsuki-card">
+            <span class="close-btn">&times;</span>
+            <h2>REGISTROS INTERNOS (DEBUG)</h2>
+            <div style="display:flex; gap:10px; margin-bottom:10px;">
+                <button id="refresh-logs" style="background:var(--primary); color:white; border:none; padding:5px 10px; cursor:pointer;">Actualizar Logs</button>
+                <button id="copy-logs" style="background:#555; color:white; border:none; padding:5px 10px; cursor:pointer;">Copiar Logs</button>
+            </div>
+            <pre id="debug-logs" style="text-align:left; font-size:12px; max-height:400px; overflow-y:auto; background:#111; color:#0f0; padding:10px;"></pre>
+        </div>
+    </div>
+
+    <!-- Modal de Configuración Inicial (API Key) -->
+    <div id="setup-modal" class="modal hidden">
+        <div class="modal-content akatsuki-card" style="height: auto; max-width: 500px; text-align: center;">
+            <h2 style="color: var(--akatsuki-red);">BIENVENIDO A JARVIS</h2>
+            <p style="margin-bottom: 20px; color: #ccc;">Para que el cerebro de inteligencia artificial funcione, ingresa tu API Key de OpenRouter.</p>
+            <input type="password" id="api-key-input" placeholder="sk-or-v1-..." style="width: 100%; padding: 10px; margin-bottom: 20px; background: #222; border: 1px solid var(--akatsuki-red); color: white; border-radius: 4px;" />
+            <button id="save-api-key" style="background: var(--akatsuki-red); color: white; border: none; padding: 10px 20px; cursor: pointer; font-family: 'Cinzel', serif; font-size: 1.1rem; border-radius: 4px;">Guardar e Iniciar</button>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>

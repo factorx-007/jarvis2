@@ -376,3 +376,73 @@ header h1 {
 
 .log-text { color: #aaa; }
 .log-intent { color: var(--akatsuki-red); font-weight: 500; }
+
+/* MODAL DE DEBUG OCULTO */
+.hidden { display: none !important; }
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+    transition: opacity 0.3s ease;
+}
+.modal-content {
+    width: 85%;
+    max-width: 900px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 2rem;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+}
+.modal-content h2 {
+    color: var(--akatsuki-white);
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--akatsuki-red);
+    padding-bottom: 0.5rem;
+}
+.close-btn {
+    position: absolute;
+    top: 15px; right: 20px;
+    font-size: 32px;
+    color: var(--akatsuki-red);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.close-btn:hover {
+    color: #ff4444;
+}
+#debug-logs {
+    flex: 1;
+    text-align: left;
+    font-size: 13px;
+    font-family: 'Fira Code', monospace;
+    overflow-y: auto;
+    background: #0a0a0a;
+    color: #0f0;
+    padding: 15px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+#refresh-logs {
+    background: var(--akatsuki-dark-red);
+    color: var(--akatsuki-white);
+    border: 1px solid var(--akatsuki-red);
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    align-self: flex-start;
+    margin-bottom: 15px;
+    font-family: 'Roboto', sans-serif;
+    transition: background 0.2s;
+}
+#refresh-logs:hover {
+    background: var(--akatsuki-red);
+}

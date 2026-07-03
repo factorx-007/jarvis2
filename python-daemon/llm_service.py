@@ -1,9 +1,15 @@
 import os
 from openai import OpenAI
+import sys
 
 def load_env():
-    # Cargar .env desde el directorio de este script
-    env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    # Cargar .env desde el directorio correcto (raíz del exe si está compilado)
+    if getattr(sys, 'frozen', False):
+        base_dir = os.path.dirname(sys.executable)
+    else:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        
+    env_path = os.path.join(base_dir, ".env")
     if os.path.exists(env_path):
         with open(env_path, "r", encoding="utf-8") as f:
             for line in f:

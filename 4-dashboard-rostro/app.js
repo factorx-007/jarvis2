@@ -123,6 +123,89 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Iniciar conexión
+    // Iniciar conexión WebSocket con reintentos automáticos
     connectWebSocket();
+    
+    // Elementos del DOM
+    const sharinganIcon = document.querySelector(".sharingan-icon");
+    const debugModal = document.getElementById("debug-modal");
+    const setupModal = document.getElementById("setup-modal");
+    const closeBtn = document.querySelector(".close-btn");
+    const debugLogs = document.getElementById("debug-logs");
+    const refreshLogsBtn = document.getElementById("refresh-logs");
+    const copyLogsBtn = document.getElementById("copy-logs");
+    const saveApiKeyBtn = document.getElementById("save-api-key");
+    const apiKeyInput = document.getElementById("api-key-input");
+    
+    function loadLogs() {
+        if (window.pywebview && window.pywebview.api) {
+            window.pywebview.api.get_logs().then(logs => {
+                debugLogs.textContent = logs;
+            }).catch(e => {
+                debugLogs.textContent = "Error obteniendo logs: " + e;
+            });
+        } else {
+            debugLogs.textContent = "La API de PyWebView no está disponible. ¿Estás corriendo el .exe?";
+        }
+    }
+    
+    // Al hacer clic en el Sharingan
+    sharinganIcon.addEventListener("click", () => {
+        debugModal.classList.remove("hidden");
+        loadLogs();
+    });
+    
+    closeBtn.addEventListener("click", () => {
+        debugModal.classList.add("hidden");
+    });
+    
+    refreshLogsBtn.addEventListener("click", () => {
+        loadLogs();
+    });
+
+    copyLogsBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(debugLogs.textContent).then(() => {
+            alert("Logs copiados al portapapeles.");
+        });
+    });
+
+    // Lógica para pedir API Key cuando la app inicia o al hacer clic
+    const btnConfigApi = document.getElementById("btn-config-api");
+    if (btnConfigApi) {
+        btnConfigApi.addEventListener("click", () => {
+            setupModal.classList.remove("hidden");
+        });
+    }
+
+    window.addEventListener("pywebviewready", function() {
+        if (window.pywebview && window.pywebview.api) {
+            window.pywebview.api.has_api_key().then(hasKey => {
+                if (!hasKey) {
+                    setupModal.classList.remove("hidden");
+                }
+            });
+        }
+    });
+
+    saveApiKeyBtn.addEventListener("click", () => {
+        const key = apiKeyInput.value.trim();
+        if (key) {
+            saveApiKeyBtn.textContent = "Guardando...";
+            window.pywebview.api.save_api_key(key).then(success => {
+                if (success) {
+                    setupModal.classList.add("hidden");
+                    alert("¡API Key guardada exitosamente!\n\nPor favor, CIERRA la aplicación Jarvis y vuélvela a ABRIR para que los cambios surtan efecto y el cerebro de IA se conecte con tu nueva clave.");
+                    saveApiKeyBtn.textContent = "Guardar e Iniciar";
+                    window.pywebview.api.start_python().then(res => {
+                        console.log("Python Daemon Result:", res);
+                    });
+                } else {
+                    alert("Error al guardar la API Key.");
+                    saveApiKeyBtn.textContent = "Guardar e Iniciar";
+                }
+            });
+        } else {
+            alert("Por favor ingresa una API Key válida.");
+        }
+    });
 });
