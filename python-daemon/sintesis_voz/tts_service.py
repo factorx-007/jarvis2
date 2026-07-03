@@ -32,35 +32,25 @@ class TTSService:
             t.start()
             t.join()
             
-            # Reproducir el audio usando la API de Windows MCI (Media Control Interface)
-            # Esto evita la necesidad de usar dependencias pesadas que requieren compilación como pygame.
-            abs_path = os.path.abspath(output_file)
-            mci = ctypes.windll.winmm.mciSendStringW
-            alias = f"tts_{int(time.time() * 1000)}"
+            # Inicializar pygame mixer si no está iniciado
+            import pygame
+            if not pygame.mixer.get_init():
+                pygame.mixer.init()
             
-            # Abrir archivo
-            open_res = mci(f'open "{abs_path}" type mpegvideo alias {alias}', None, 0, 0)
-            if open_res != 0:
-                # Fallback sin tipo mpegvideo
-                open_res = mci(f'open "{abs_path}" alias {alias}', None, 0, 0)
+            # Reproducir el audio usando pygame
+            abs_path = os.path.abspath(output_file)
+            
+            try:
+                pygame.mixer.music.load(abs_path)
+                pygame.mixer.music.play()
                 
-            if open_res == 0:
-                try:
-                    # Reproducir
-                    mci(f'play {alias}', None, 0, 0)
+                # Esperar a que termine de reproducirse
+                while pygame.mixer.music.get_busy():
+                    time.sleep(0.05)
                     
-                    # Esperar a que termine de reproducirse
-                    status_buffer = ctypes.create_unicode_buffer(128)
-                    while True:
-                        mci(f'status {alias} mode', status_buffer, 128, 0)
-                        if status_buffer.value != 'playing':
-                            break
-                        time.sleep(0.05)
-                finally:
-                    # Cerrar archivo para liberarlo
-                    mci(f'close {alias}', None, 0, 0)
-            else:
-                print(f"[TTS] [ERROR] No se pudo abrir el archivo de audio con MCI (Codigo: {open_res})")
+            finally:
+                # Descargar el archivo de memoria para poder eliminarlo
+                pygame.mixer.music.unload()
                 
             # Eliminar archivos temporales para que no se acumulen
             if os.path.exists(output_file):
