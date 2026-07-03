@@ -122,7 +122,23 @@ def run_server():
     server = HTTPServer(('localhost', 8081), ApiHandler)
     server.serve_forever()
 
+def kill_existing_java():
+    java_exe_path = os.path.join(project_root, "jre", "bin", "java.exe").lower()
+    try:
+        import psutil
+        for proc in psutil.process_iter(['pid', 'name', 'exe']):
+            try:
+                exe = proc.info['exe']
+                if exe and exe.lower() == java_exe_path:
+                    print(f"[Jarvis App] Matando proceso Java huérfano (PID: {proc.info['pid']}) para liberar puerto...")
+                    proc.kill()
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                pass
+    except Exception as e:
+        print(f"Error al limpiar procesos Java: {e}")
+
 def start_java_backend():
+    kill_existing_java()
     print("[Jarvis App] Iniciando Cerebro Java...")
     java_exe = os.path.join(project_root, "jre", "bin", "java.exe")
     jar_path = os.path.join(project_root, "java-core", "target", "core-0.0.1-SNAPSHOT.jar")
