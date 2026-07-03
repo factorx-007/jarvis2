@@ -1,0 +1,95 @@
+[Jarvis App] Iniciando Cerebro Java...
+[Jarvis App] Abriendo ventana del Dashboard...
+[Jarvis App] Iniciando Sistema Nervioso (Python)...
+[STT] Calibrando para ruido de fondo...
+[STT] Calibración completa. Umbral de energía: 150
+[DAEMON] Iniciando Python Daemon...
+[TTS] Diciendo: Hola, soy Juan. Iniciando sistemas.
+[STT] Escuchando activamente. Wake words: ['juan', 'wan', 'guan', 'juana', 'one', 'guam', 'cuán', 'pan'][WS] Conectando a ws://localhost:8080/jarvis-ws...
+
+[STT] Di 'Juan' seguido de tu comando (ej: 'Juan abre la calculadora').
+[WS] Conectado al Cerebro Java.
+[TTS] Diciendo: Conectado al servidor principal.
+[STT] 🎙️ Escuchado: '19 resultados cuál es la metodología que te quería preguntar quién era la nicotina por qué porque todo va a depender'
+[WS] Mensaje recibido de Java: {"intent":"CHAT_QUERY","target":"cuando fue la fuerra mundial"}
+[LLM] Pensando respuesta para: 'cuando fue la fuerra mundial'...
+[LLM] Respuesta generada: La Primera Guerra Mundial ocurrió de 1914 a 1918. La Segunda Guerra Mundial tuvo lugar de 1939 a 1945.
+[TTS] Diciendo: La Primera Guerra Mundial ocurrió de 1914 a 1918. La Segunda Guerra Mundial tuvo lugar de 1939 a 1945.
+[STT] 🎙️ Escuchado: '19 resultados de s'
+[STT] 🎙️ Escuchado: 'sin ver resultados sabana'
+[STT] 🎙️ Escuchado: 'un millón'
+[WS] Mensaje recibido de Java: {"type":"HISTORY_UPDATE","payload":{"raw_text":"cuando fue la fuerra mundial","intent":"CHAT_QUERY","target":"cuando fue la fuerra mundial"}}
+[WS] Mensaje recibido de Java: {"type":"LLM_RESPONSE","text":"La Primera Guerra Mundial ocurrió de 1914 a 1918. La Segunda Guerra Mundial tuvo lugar de 1939 a 1945."}
+[WS] Mensaje recibido de Java: {"intent":"OPEN_APP","target":"spotify","tts_message":"Claro que sí, abriendo spotify ahora."}
+[OS] Abriendo 'spotify' → spotify.exe
+[TTS] Diciendo: Claro que sí, abriendo spotify ahora.
+[STT] 🎙️ Escuchado: 'muchísimas gracias entonces eso quiere decir que es un producto que se está vendiendo tiene potencial pero no tiene la cantidad de huesos necesarios para sacarlo'
+[WS] Mensaje recibido de Java: {"type":"HISTORY_UPDATE","payload":{"raw_text":"abre spotify","intent":"OPEN_APP","target":"spotify"}}
+[STT] 🎙️ Escuchado: 'entonces sí tienes razón'
+[STT] 🎙️ Escuchado: 'a qué hora sale arrancarlos'
+[STT] 🎙️ Escuchado: 'hola cómo estás para empezar a vender y sobre todo'
+[STT] 🎙️ Escuchado: 'y sigue el producto lo revisaste tiene más de 100 resultados descartan spotify'
+[STT] 🎙️ Escuchado: 'es una competencia ya por el centro que te comparto'
+[STT] 🎙️ Escuchado: 'cómo está la competencia qué están haciendo y qué puedo hacer'
+[STT] 🎙️ Escuchado: 'juan cierra spotify'
+[STT] ✅ Comando para Juan: 'cierra spotify'
+[DAEMON] Comando detectado: cierra spotify
+[WS] Mensaje recibido de Java: {"intent":"CLOSE_APP","target":"spotify","tts_message":"De acuerdo, cierro spotify."}
+[OS] Cerrando 'spotify' → spotify.exe
+[TTS] Diciendo: De acuerdo, cierro spotify.
+[WS] Mensaje recibido de Java: {"type":"HISTORY_UPDATE","payload":{"raw_text":"cierra spotify","intent":"CLOSE_APP","target":"spotify"}}
+[STT] 🎙️ Escuchado: 'juan abre spotify'
+[STT] ✅ Comando para Juan: 'abre spotify'
+[DAEMON] Comando detectado: abre spotify
+[WS] Mensaje recibido de Java: {"intent":"OPEN_APP","target":"spotify","tts_message":"En un momento te abro spotify."}
+[OS] Abriendo 'spotify' → spotify.exe
+[TTS] Diciendo: En un momento te abro spotify.
+[WS] Mensaje recibido de Java: {"type":"HISTORY_UPDATE","payload":{"raw_text":"abre spotify","intent":"OPEN_APP","target":"spotify"}}
+[STT] 🎙️ Escuchado: 'juan dale play'
+[STT] ✅ Comando para Juan: 'dale play'
+[DAEMON] Comando detectado: dale play
+[WS] Mensaje recibido de Java: {"intent":"MEDIA_PLAY_PAUSE","tts_message":"Hecho."}
+[TTS] Diciendo: Hecho.
+[WS] Mensaje recibido de Java: {"type":"HISTORY_UPDATE","payload":{"raw_text":"dale play","intent":"MEDIA_PLAY_PAUSE","target":null}}
+[STT] 🎙️ Escuchado: 'juan siguiente'
+[STT] ✅ Comando para Juan: 'siguiente'
+[DAEMON] Comando detectado: siguiente
+[WS] Mensaje recibido de Java: {"intent":"MEDIA_NEXT","tts_message":"Siguiente canción."}
+[TTS] Diciendo: Siguiente canción.
+[WS] Mensaje recibido de Java: {"type":"HISTORY_UPDATE","payload":{"raw_text":"siguiente","intent":"MEDIA_NEXT","target":null}}
+[STT] 🎙️ Escuchado: 'juan pausa'
+[STT] ✅ Comando para Juan: 'pausa'
+[DAEMON] Comando detectado: pausa
+[WS] Mensaje recibido de Java: {"intent":"MEDIA_PLAY_PAUSE","tts_message":"Hecho."}
+[TTS] Diciendo: Hecho.
+[WS] Mensaje recibido de Java: {"type":"HISTORY_UPDATE","payload":{"raw_text":"pausa","intent":"MEDIA_PLAY_PAUSE","target":null}}
+[STT] 🎙️ Escuchado: 'cierra spotify'
+[STT] 🎙️ Escuchado: 'spotify'
+[STT] 🎙️ Escuchado: 'juan cierra spotify'
+[STT] ✅ Comando para Juan: 'cierra spotify'
+[DAEMON] Comando detectado: cierra spotify
+[WS] Mensaje recibido de Java: {"intent":"CLOSE_APP","target":"spotify","tts_message":"Entendido, terminando spotify."}
+[OS] Cerrando 'spotify' → spotify.exe
+[TTS] Diciendo: Entendido, terminando spotify.
+[WS] Mensaje recibido de Java: {"type":"HISTORY_UPDATE","payload":{"raw_text":"cierra spotify","intent":"CLOSE_APP","target":"spotify"}}
+[STT] 🎙️ Escuchado: 'juan busco un video en youtube'
+[STT] ✅ Comando para Juan: 'busco un video en youtube'
+[DAEMON] Comando detectado: busco un video en youtube
+[WS] Mensaje recibido de Java: {"intent":"CHAT_QUERY","target":"busco un video en youtube"}
+[LLM] Pensando respuesta para: 'busco un video en youtube'...
+[LLM] Respuesta generada: No puedo ayudar con eso. Te sugiero que uses palabras clave relevantes en la barra de búsqueda de YouTube para encontrar lo que buscas.
+[TTS] Diciendo: No puedo ayudar con eso. Te sugiero que uses palabras clave relevantes en la barra de búsqueda de YouTube para encontrar lo que buscas.
+[WS] Mensaje recibido de Java: {"type":"HISTORY_UPDATE","payload":{"raw_text":"busco un video en youtube","intent":"CHAT_QUERY","target":"busco un video en youtube"}}
+[WS] Mensaje recibido de Java: {"type":"LLM_RESPONSE","text":"No puedo ayudar con eso. Te sugiero que uses palabras clave relevantes en la barra de búsqueda de YouTube para encontrar lo que buscas."}
+[STT] 🎙️ Escuchado: 'busca en youtube música'
+[STT] 🎙️ Escuchado: 'juan'
+[STT] Wake word detectado solo. Escuchando comando...
+[STT] No se detectó comando después del wake word.
+[STT] 🎙️ Escuchado: 'juan busca música en'
+[STT] ✅ Comando para Juan: 'busca música en'
+[DAEMON] Comando detectado: busca música en
+[WS] Mensaje recibido de Java: {"intent":"CHAT_QUERY","target":"busca música en"}
+[LLM] Pensando respuesta para: 'busca música en'...
+[LLM] Respuesta generada: No tengo la capacidad de buscar música. Te recomiendo utilizar plataformas de música o aplicaciones de streaming para encontrar lo que deseas.
+[TTS] Diciendo: No tengo la capacidad de buscar música. Te recomiendo utilizar plataformas de música o aplicaciones de streaming para encontrar lo que deseas.
+[Jarvis App] Cerrando aplicación...
