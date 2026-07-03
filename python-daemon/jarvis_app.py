@@ -1,5 +1,12 @@
 import os
 import sys
+
+# FIX: Forzar a pythonnet a usar la DLL de Python empaquetada (evita RuntimeError en otras PCs)
+if getattr(sys, 'frozen', False):
+    pydll = os.path.join(sys._MEIPASS, 'python313.dll')
+    if os.path.exists(pydll):
+        os.environ['PYTHONNET_PYDLL'] = pydll
+
 import subprocess
 import threading
 import time

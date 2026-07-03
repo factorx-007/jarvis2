@@ -60,13 +60,13 @@ Requirement already satisfied: standard-chunk in d:\jarvis2\python-daemon\venv_c
 
 [notice] A new release of pip is available: 25.1.1 -> 26.1.2
 [notice] To update, run: python.exe -m pip install --upgrade pip
-203 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\jarvis2\python-daemon\venv_clean\conda-meta does not exist.
-229 INFO: PyInstaller: 6.21.0, contrib hooks: 2026.6
-229 INFO: Python: 3.13.5 (conda)
-258 INFO: Platform: Windows-11-10.0.26100-SP0
-258 INFO: Python environment: D:\jarvis2\python-daemon\venv_clean
-258 INFO: wrote D:\jarvis2\python-daemon\Jarvis.spec
-264 INFO: Module search paths (PYTHONPATH):
+245 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\jarvis2\python-daemon\venv_clean\conda-meta does not exist.
+287 INFO: PyInstaller: 6.21.0, contrib hooks: 2026.6
+288 INFO: Python: 3.13.5 (conda)
+321 INFO: Platform: Windows-11-10.0.26100-SP0
+321 INFO: Python environment: D:\jarvis2\python-daemon\venv_clean
+322 INFO: wrote D:\jarvis2\python-daemon\Jarvis.spec
+336 INFO: Module search paths (PYTHONPATH):
 ['D:\\jarvis2\\python-daemon\\venv_clean\\Scripts\\pyinstaller.exe',
  'C:\\Users\\Acer\\anaconda3\\python313.zip',
  'C:\\Users\\Acer\\anaconda3\\DLLs',
@@ -75,14 +75,116 @@ Requirement already satisfied: standard-chunk in d:\jarvis2\python-daemon\venv_c
  'D:\\jarvis2\\python-daemon\\venv_clean',
  'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages',
  'D:\\jarvis2\\python-daemon']
-120 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\jarvis2\python-daemon\venv_clean\conda-meta does not exist.
-634 INFO: checking Analysis
-732 INFO: checking PYZ
-774 INFO: checking PKG
-774 INFO: Bootloader D:\jarvis2\python-daemon\venv_clean\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
-774 INFO: checking EXE
-785 INFO: checking COLLECT
-816 INFO: Removing dir D:\jarvis2\python-daemon\dist\Jarvis
-1296 INFO: Building COLLECT COLLECT-00.toc
-3831 INFO: Building COLLECT COLLECT-00.toc completed successfully.
-3864 INFO: Build complete! The results are available in: D:\jarvis2\python-daemon\dist
+149 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\jarvis2\python-daemon\venv_clean\conda-meta does not exist.
+840 INFO: checking Analysis
+920 INFO: Building because D:\jarvis2\python-daemon\jarvis_app.py changed
+920 INFO: Looking for Python shared library...
+920 INFO: Using Python shared library: C:\Users\Acer\anaconda3\python313.dll
+920 INFO: Running Analysis Analysis-00.toc
+920 INFO: Target bytecode optimization level: 0
+920 INFO: Initializing module dependency graph...
+923 INFO: Initializing module graph hook caches...
+971 INFO: Analyzing modules for base_library.zip ...
+130 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\jarvis2\python-daemon\venv_clean\conda-meta does not exist.
+133 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\jarvis2\python-daemon\venv_clean\conda-meta does not exist.
+162 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\jarvis2\python-daemon\venv_clean\conda-meta does not exist.
+2760 INFO: Processing standard module hook 'hook-encodings.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+121 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\jarvis2\python-daemon\venv_clean\conda-meta does not exist.
+3280 INFO: Processing standard module hook 'hook-math.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+5538 INFO: Processing standard module hook 'hook-pickle.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+6956 INFO: Processing standard module hook 'hook-heapq.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+7661 INFO: Caching module dependency graph...
+7703 INFO: Analyzing D:\jarvis2\python-daemon\jarvis_app.py
+7729 INFO: Processing standard module hook 'hook-webview.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\webview\\__pyinstaller'
+7813 INFO: Processing standard module hook 'hook-platform.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+7865 INFO: Processing standard module hook 'hook-_ctypes.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+8268 INFO: Processing standard module hook 'hook-webbrowser.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+8926 INFO: Processing standard module hook 'hook-multiprocessing.util.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+9050 INFO: Processing standard module hook 'hook-xml.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+9945 INFO: Processing pre-safe-import-module hook 'hook-typing_extensions.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+9949 INFO: SetuptoolsInfo: initializing cached setuptools info...
+478 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\jarvis2\python-daemon\venv_clean\conda-meta does not exist.
+11348 INFO: Processing pre-safe-import-module hook 'hook-gi.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+11594 INFO: Processing standard module hook 'hook-clr.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\pythonnet\\_pyinstaller'
+11690 INFO: Processing standard module hook 'hook-clr_loader.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+11819 INFO: Processing standard module hook 'hook-pycparser.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+12043 INFO: Processing standard module hook 'hook-setuptools.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+12059 INFO: Processing pre-safe-import-module hook 'hook-distutils.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+12121 INFO: Processing standard module hook 'hook-sysconfig.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+12128 INFO: Processing pre-safe-import-module hook 'hook-jaraco.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+12129 INFO: Setuptools: 'jaraco' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.jaraco'!
+12142 INFO: Processing pre-safe-import-module hook 'hook-more_itertools.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+12143 INFO: Setuptools: 'more_itertools' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.more_itertools'!
+12414 INFO: Processing pre-safe-import-module hook 'hook-packaging.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+12670 INFO: Processing standard module hook 'hook-setuptools._vendor.jaraco.text.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+12672 INFO: Processing pre-safe-import-module hook 'hook-importlib_resources.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+12937 INFO: Processing pre-safe-import-module hook 'hook-backports.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+12940 INFO: Setuptools: 'backports' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.backports'!
+13179 INFO: Processing pre-safe-import-module hook 'hook-importlib_metadata.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+13181 INFO: Setuptools: 'importlib_metadata' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.importlib_metadata'!
+13217 INFO: Processing standard module hook 'hook-setuptools._vendor.importlib_metadata.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+13250 INFO: Processing pre-safe-import-module hook 'hook-zipp.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+13252 INFO: Setuptools: 'zipp' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.zipp'!
+13576 INFO: Processing pre-safe-import-module hook 'hook-tomli.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+13577 INFO: Setuptools: 'tomli' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.tomli'!
+14240 INFO: Processing pre-safe-import-module hook 'hook-wheel.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+14241 INFO: Setuptools: 'wheel' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.wheel'!
+15061 INFO: Processing standard module hook 'hook-difflib.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+15642 INFO: Processing standard module hook 'hook-xml.etree.cElementTree.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+15753 INFO: Processing standard module hook 'hook-websockets.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+140 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\jarvis2\python-daemon\venv_clean\conda-meta does not exist.
+16451 INFO: Processing standard module hook 'hook-speech_recognition.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+16579 INFO: Processing pre-safe-import-module hook 'hook-tensorflow.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\pre_safe_import_module'
+16680 INFO: Processing standard module hook 'hook-pydantic.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+127 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\jarvis2\python-daemon\venv_clean\conda-meta does not exist.
+17668 INFO: Processing standard module hook 'hook-zoneinfo.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+19093 INFO: Processing standard module hook 'hook-certifi.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+19292 INFO: Processing standard module hook 'hook-anyio.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+135 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\jarvis2\python-daemon\venv_clean\conda-meta does not exist.
+26963 INFO: Processing standard module hook 'hook-psutil.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+27436 INFO: Processing pre-find-module-path hook 'hook-tkinter.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\pre_find_module_path'
+27439 INFO: TclTkInfo: initializing cached Tcl/Tk info...
+28266 INFO: Processing standard module hook 'hook-_tkinter.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+D:\jarvis2\python-daemon\venv_clean\Lib\site-packages\pyautogui\_pyautogui_x11.py:284: SyntaxWarning: invalid escape sequence '\e'
+  '\e': _display.keysym_to_keycode(Xlib.XK.string_to_keysym('Escape')),
+28477 INFO: Processing standard module hook 'hook-playwright.sync_api.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\playwright\\_impl\\__pyinstaller'
+29608 INFO: Processing module hooks (post-graph stage)...
+29820 WARNING: Hidden import "pycparser.lextab" not found!
+29820 WARNING: Hidden import "pycparser.yacctab" not found!
+30035 WARNING: Hidden import "tzdata" not found!
+30086 INFO: Processing standard module hook 'hook-_tkinter.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks'
+30115 INFO: Performing binary vs. data reclassification (1176 entries)
+30694 INFO: Looking for ctypes DLLs
+30779 INFO: Analyzing run-time hooks ...
+30790 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+30793 INFO: Including run-time hook 'pyi_rth_setuptools.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+30795 INFO: Including run-time hook 'pyi_rth_pkgutil.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+30798 INFO: Including run-time hook 'pyi_rth_multiprocessing.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+30801 INFO: Including run-time hook 'pyi_rth__tkinter.py' from 'D:\\jarvis2\\python-daemon\\venv_clean\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+30865 INFO: Creating base_library.zip...
+30891 INFO: Looking for dynamic libraries
+34856 INFO: Extra DLL search directories (AddDllDirectory): []
+34856 INFO: Extra DLL search directories (PATH): []
+35917 INFO: Warnings written to D:\jarvis2\python-daemon\build\Jarvis\warn-Jarvis.txt
+36109 INFO: Graph cross-reference written to D:\jarvis2\python-daemon\build\Jarvis\xref-Jarvis.html
+36202 INFO: checking PYZ
+36272 INFO: checking PKG
+36274 INFO: Building because D:\jarvis2\python-daemon\jarvis_app.py changed
+36274 INFO: Building PKG (CArchive) Jarvis.pkg
+36315 INFO: Building PKG (CArchive) Jarvis.pkg completed successfully.
+36316 INFO: Bootloader D:\jarvis2\python-daemon\venv_clean\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
+36316 INFO: checking EXE
+36335 INFO: Rebuilding EXE-00.toc because pkg is more recent
+36335 INFO: Building EXE from EXE-00.toc
+36336 INFO: Copying bootloader EXE to D:\jarvis2\python-daemon\build\Jarvis\Jarvis.exe
+36435 INFO: Copying icon to EXE
+36476 INFO: Copying 0 resources to EXE
+36476 INFO: Embedding manifest in EXE
+36513 INFO: Appending PKG archive to EXE
+36707 INFO: Fixing EXE headers
+37066 INFO: Building EXE from EXE-00.toc completed successfully.
+37084 INFO: checking COLLECT
+37113 INFO: Removing dir D:\jarvis2\python-daemon\dist\Jarvis
+37334 INFO: Building COLLECT COLLECT-00.toc
+39042 INFO: Building COLLECT COLLECT-00.toc completed successfully.
+39063 INFO: Build complete! The results are available in: D:\jarvis2\python-daemon\dist
