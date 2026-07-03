@@ -1,29 +1,21 @@
 import os
 import sys
-
-# FIX: Forzar a pythonnet a usar la DLL de Python empaquetada (evita RuntimeError en otras PCs)
-if getattr(sys, 'frozen', False):
-    pydll = os.path.join(sys._MEIPASS, 'python313.dll')
-    if os.path.exists(pydll):
-        os.environ['PYTHONNET_PYDLL'] = pydll
-
 import subprocess
 import threading
 import time
-import webview
+import json
+from http.server import HTTPServer, BaseHTTPRequestHandler
+import webbrowser
+import tkinter as tk
 from main import PythonDaemon
 
-# Paths are relative to the executable (when compiled) or this script
 if getattr(sys, 'frozen', False):
-    # If compiled with PyInstaller
     base_dir = sys._MEIPASS
     project_root = os.path.dirname(sys.executable)
 else:
-    # If running as script
     base_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(base_dir)
 
-# Redirigir salidas para depuración
 py_log_path = os.path.join(project_root, "jarvis_debug.log")
 java_log_path = os.path.join(project_root, "java_debug.log")
 
@@ -40,49 +32,95 @@ class Logger(object):
 sys.stdout = Logger(py_log_path)
 sys.stderr = sys.stdout
 
-# Variable global para el thread del daemon
 daemon_thread = None
 
-class Api:
-    def get_logs(self):
-        try:
-            with open(py_log_path, "r", encoding="utf-8", errors="replace") as f:
-                py_logs = f.read()[-3000:]
-        except Exception as e:
-            py_logs = f"Error: {e}"
-        try:
-            with open(java_log_path, "r", encoding="utf-8", errors="replace") as f:
-                java_logs = f.read()[-3000:]
-        except Exception as e:
-            java_logs = f"Error: {e}"
-        return f"=== PYTHON LOGS ===\n{py_logs}\n\n=== JAVA LOGS ===\n{java_logs}"
+def get_logs_text():
+    try:
+        with open(py_log_path, "r", encoding="utf-8", errors="replace") as f:
+            py_logs = f.read()[-3000:]
+    except Exception as e:
+        py_logs = f"Error: {e}"
+    try:
+        with open(java_log_path, "r", encoding="utf-8", errors="replace") as f:
+            java_logs = f.read()[-3000:]
+    except Exception as e:
+        java_logs = f"Error: {e}"
+    return f"=== PYTHON LOGS ===\n{py_logs}\n\n=== JAVA LOGS ===\n{java_logs}"
 
-    def has_api_key(self):
-        env_path = os.path.join(project_root, ".env")
-        if os.path.exists(env_path):
-            with open(env_path, "r", encoding="utf-8") as f:
-                content = f.read()
-                if "OPENROUTER_API_KEY=" in content:
-                    return True
+def has_api_key_logic():
+    env_path = os.path.join(project_root, ".env")
+    if os.path.exists(env_path):
+        with open(env_path, "r", encoding="utf-8") as f:
+            if "OPENROUTER_API_KEY=" in f.read():
+                return True
+    return False
+
+def save_api_key_logic(key):
+    env_path = os.path.join(project_root, ".env")
+    try:
+        with open(env_path, "w", encoding="utf-8") as f:
+            f.write(f'OPENROUTER_API_KEY="{key.strip()}"\n')
+        return True
+    except Exception as e:
+        print(f"Error guardando API key: {e}")
         return False
 
-    def save_api_key(self, key):
-        env_path = os.path.join(project_root, ".env")
-        try:
-            with open(env_path, "w", encoding="utf-8") as f:
-                f.write(f'OPENROUTER_API_KEY="{key.strip()}"\n')
-            return True
-        except Exception as e:
-            print(f"Error guardando API key: {e}")
-            return False
+def run_python_daemon():
+    print("[Jarvis App] Iniciando Sistema Nervioso (Python)...")
+    try:
+        daemon = PythonDaemon()
+        daemon.start()
+    except Exception as e:
+        import traceback
+        print(f"[Jarvis App] Error crítico en el daemon de Python:\n{traceback.format_exc()}")
 
-    def start_python(self):
-        global daemon_thread
-        if daemon_thread and daemon_thread.is_alive():
-            return "Ya está corriendo"
-        daemon_thread = threading.Thread(target=run_python_daemon, daemon=True)
-        daemon_thread.start()
-        return "Iniciado"
+def start_python_logic():
+    global daemon_thread
+    if daemon_thread and daemon_thread.is_alive():
+        return "Ya está corriendo"
+    daemon_thread = threading.Thread(target=run_python_daemon, daemon=True)
+    daemon_thread.start()
+    return "Iniciado"
+
+class ApiHandler(BaseHTTPRequestHandler):
+    def do_OPTIONS(self):
+        self.send_response(200, "ok")
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header("Access-Control-Allow-Headers", "X-Requested-With, Content-type")
+        self.end_headers()
+
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Content-type', 'application/json')
+        self.end_headers()
+        
+        if self.path == '/api/logs':
+            self.wfile.write(json.dumps({"logs": get_logs_text()}).encode('utf-8'))
+        elif self.path == '/api/has_key':
+            self.wfile.write(json.dumps({"has_key": has_api_key_logic()}).encode('utf-8'))
+
+    def do_POST(self):
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Content-type', 'application/json')
+        self.end_headers()
+        
+        if self.path == '/api/save_key':
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length)
+            data = json.loads(post_data)
+            key = data.get("key", "")
+            success = save_api_key_logic(key)
+            self.wfile.write(json.dumps({"success": success}).encode('utf-8'))
+        elif self.path == '/api/start_python':
+            res = start_python_logic()
+            self.wfile.write(json.dumps({"status": res}).encode('utf-8'))
+
+def run_server():
+    server = HTTPServer(('localhost', 8081), ApiHandler)
+    server.serve_forever()
 
 def start_java_backend():
     print("[Jarvis App] Iniciando Cerebro Java...")
@@ -94,10 +132,7 @@ def start_java_backend():
         java_exe = "java"
         
     try:
-        creationflags = 0
-        if getattr(sys, 'frozen', False):
-            creationflags = subprocess.CREATE_NO_WINDOW
-            
+        creationflags = subprocess.CREATE_NO_WINDOW if getattr(sys, 'frozen', False) else 0
         java_log_file = open(java_log_path, "w", encoding="utf-8")
         process = subprocess.Popen(
             [java_exe, "-jar", jar_path],
@@ -110,39 +145,30 @@ def start_java_backend():
         print(f"[Jarvis App] Error iniciando Java: {e}")
         return None
 
-def run_python_daemon():
-    print("[Jarvis App] Iniciando Sistema Nervioso (Python)...")
-    try:
-        daemon = PythonDaemon()
-        daemon.start()
-    except Exception as e:
-        import traceback
-        print(f"[Jarvis App] Error crítico en el daemon de Python:\n{traceback.format_exc()}")
-
 def main():
     java_proc = start_java_backend()
-    time.sleep(3)
     
-    print("[Jarvis App] Abriendo ventana del Dashboard...")
-    dashboard_path = os.path.join(project_root, "4-dashboard-rostro", "index.html")
+    # Start API server for frontend
+    threading.Thread(target=run_server, daemon=True).start()
     
-    api_instance = Api()
+    if has_api_key_logic():
+        start_python_logic()
+        
+    print("[Jarvis App] Esperando a que Java responda...")
+    time.sleep(5)
     
-    # Iniciar daemon automáticamente si ya tiene la llave
-    if api_instance.has_api_key():
-        api_instance.start_python()
+    # Open dashboard in user's default browser!
+    print("[Jarvis App] Abriendo Dashboard en el navegador...")
+    webbrowser.open("http://localhost:8080")
     
-    webview.create_window(
-        title="Jarvis - Asistente Virtual",
-        url=f"file:///{dashboard_path.replace(chr(92), '/')}",
-        width=1000,
-        height=800,
-        min_size=(800, 600),
-        text_select=False,
-        js_api=api_instance
-    )
-    
-    webview.start()
+    # Show tiny control window to keep app alive
+    root = tk.Tk()
+    root.title("Jarvis Activo")
+    root.geometry("350x150")
+    root.configure(bg="#111111")
+    tk.Label(root, text="🔴 El Sistema Jarvis está ejecutándose.\n\nPuedes interactuar desde tu navegador web.\n\nCierra esta ventana para apagar todos los sistemas.", fg="#ff0000", bg="#111111", font=("Segoe UI", 10)).pack(expand=True)
+    root.eval('tk::PlaceWindow . center')
+    root.mainloop()
     
     print("[Jarvis App] Cerrando aplicación...")
     if java_proc:
@@ -151,7 +177,6 @@ def main():
             java_proc.wait(timeout=3)
         except subprocess.TimeoutExpired:
             java_proc.kill()
-    
     sys.exit(0)
 
 if __name__ == "__main__":

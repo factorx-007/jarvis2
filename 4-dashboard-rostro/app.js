@@ -137,16 +137,47 @@ document.addEventListener("DOMContentLoaded", () => {
     const saveApiKeyBtn = document.getElementById("save-api-key");
     const apiKeyInput = document.getElementById("api-key-input");
     
-    function loadLogs() {
-        if (window.pywebview && window.pywebview.api) {
-            window.pywebview.api.get_logs().then(logs => {
-                debugLogs.textContent = logs;
-            }).catch(e => {
-                debugLogs.textContent = "Error obteniendo logs: " + e;
-            });
-        } else {
-            debugLogs.textContent = "La API de PyWebView no está disponible. ¿Estás corriendo el .exe?";
+    // Simulador de pywebview usando llamadas HTTP al backend Python
+    window.pywebview = {
+        api: {
+            get_logs: async () => {
+                try {
+                    let res = await fetch("http://localhost:8081/api/logs");
+                    let data = await res.json();
+                    return data.logs;
+                } catch(e) { return "Error obteniendo logs: " + e; }
+            },
+            has_api_key: async () => {
+                try {
+                    let res = await fetch("http://localhost:8081/api/has_key");
+                    let data = await res.json();
+                    return data.has_key;
+                } catch(e) { return false; }
+            },
+            save_api_key: async (key) => {
+                try {
+                    let res = await fetch("http://localhost:8081/api/save_key", {
+                        method: 'POST',
+                        body: JSON.stringify({key: key}),
+                        headers: {'Content-Type': 'application/json'}
+                    });
+                    let data = await res.json();
+                    return data.success;
+                } catch(e) { return false; }
+            },
+            start_python: async () => {
+                try {
+                    let res = await fetch("http://localhost:8081/api/start_python", {method: 'POST', body: "{}"});
+                    return "Started";
+                } catch(e) { return "Error"; }
+            }
         }
+    };
+
+    function loadLogs() {
+        window.pywebview.api.get_logs().then(logs => {
+            debugLogs.textContent = logs;
+        });
     }
     
     // Al hacer clic en el Sharingan
@@ -177,15 +208,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    window.addEventListener("pywebviewready", function() {
-        if (window.pywebview && window.pywebview.api) {
-            window.pywebview.api.has_api_key().then(hasKey => {
-                if (!hasKey) {
-                    setupModal.classList.remove("hidden");
-                }
-            });
-        }
-    });
+    // Inicializar comprobación de API KEY después de un breve delay
+    setTimeout(() => {
+        window.pywebview.api.has_api_key().then(hasKey => {
+            if (!hasKey) {
+                setupModal.classList.remove("hidden");
+            }
+        });
+    }, 1000);
 
     saveApiKeyBtn.addEventListener("click", () => {
         const key = apiKeyInput.value.trim();
@@ -194,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
             window.pywebview.api.save_api_key(key).then(success => {
                 if (success) {
                     setupModal.classList.add("hidden");
-                    alert("¡API Key guardada exitosamente!\n\nPor favor, CIERRA la aplicación Jarvis y vuélvela a ABRIR para que los cambios surtan efecto y el cerebro de IA se conecte con tu nueva clave.");
+                    alert("¡API Key guardada exitosamente!\n\nPor favor, CIERRA la ventana de Jarvis Activo y vuelve a ABRIR el ejecutable para que el cerebro de IA se conecte con tu nueva clave.");
                     saveApiKeyBtn.textContent = "Guardar e Iniciar";
                     window.pywebview.api.start_python().then(res => {
                         console.log("Python Daemon Result:", res);
