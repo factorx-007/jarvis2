@@ -11,6 +11,10 @@ from main import PythonDaemon
 if getattr(sys, 'frozen', False):
     base_dir = sys._MEIPASS
     project_root = os.path.dirname(sys.executable)
+    # FIX: Forzar a pythonnet a usar la DLL de Python empaquetada (evita RuntimeError en otras PCs si la ruta es limpia)
+    pydll = os.path.join(base_dir, 'python313.dll')
+    if os.path.exists(pydll):
+        os.environ['PYTHONNET_PYDLL'] = pydll
 else:
     base_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(base_dir)
@@ -161,34 +165,33 @@ def start_java_backend():
         return None
 
 def launch_dashboard_and_wait():
-    url = "http://localhost:8080"
-    print("[Jarvis App] Abriendo Dashboard como aplicación nativa...")
+    print("[Jarvis App] Iniciando ventana nativa de PyWebView...")
     
-    edge_paths = [
-        r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
-        r"C:\Program Files\Microsoft\Edge\Application\msedge.exe"
-    ]
-    chrome_paths = [
-        r"C:\Program Files\Google\Chrome\Application\chrome.exe",
-        r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-    ]
-    
-    for path in edge_paths + chrome_paths:
-        if os.path.exists(path):
-            try:
-                proc = subprocess.Popen([path, f"--app={url}"])
-                proc.wait() # Bloquea hasta que el usuario cierre la ventana de Jarvis
-                return
-            except Exception as e:
-                print(f"Error lanzando navegador: {e}")
-                
-    # Fallback si no hay edge ni chrome
-    webbrowser.open(url)
+    # Validar que la ruta no contenga paréntesis (error conocido de pythonnet/pywebview)
+    if "(" in project_root or ")" in project_root:
+        import ctypes
+        ctypes.windll.user32.MessageBoxW(0, 
+            "Error Crítico:\nLa ruta del programa contiene paréntesis '( )'.\n" + 
+            f"Ruta actual: {project_root}\n\n" +
+            "Por favor, mueve o renombra la carpeta a algo simple como 'Jarvis' sin espacios ni símbolos extraños.", 
+            "Jarvis - Error de Directorio", 0x10)
+        sys.exit(1)
+        
     try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        pass
+        import webview
+        webview.create_window(
+            title="Jarvis - Asistente Virtual",
+            url="http://localhost:8080",
+            width=1000,
+            height=800,
+            min_size=(800, 600),
+            text_select=False
+        )
+        webview.start()
+    except Exception as e:
+        print(f"Error fatal iniciando PyWebView: {e}")
+        import traceback
+        traceback.print_exc()
 
 def main():
     java_proc = start_java_backend()
@@ -202,7 +205,7 @@ def main():
     print("[Jarvis App] Esperando a que Java responda...")
     time.sleep(5)
     
-    # Lanza la GUI y bloquea hasta que se cierre
+    # Lanza la GUI nativa (bloquea hasta que se cierre)
     launch_dashboard_and_wait()
     
     print("[Jarvis App] Cerrando aplicación...")
