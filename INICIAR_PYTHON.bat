@@ -70,6 +70,7 @@ if "!ENV_EXISTS!"=="0" (
 )
  
 :: 3. Instalar dependencias usando python -m pip
+::intalar dependencias
 echo.
 echo [3/5] Verificando e instalando dependencias (puede tardar la primera vez)...
 python -m pip install -r requirements.txt
