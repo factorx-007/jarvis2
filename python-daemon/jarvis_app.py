@@ -6,7 +6,6 @@ import time
 import json
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import webbrowser
-import tkinter as tk
 from main import PythonDaemon
 
 if getattr(sys, 'frozen', False):
@@ -161,6 +160,36 @@ def start_java_backend():
         print(f"[Jarvis App] Error iniciando Java: {e}")
         return None
 
+def launch_dashboard_and_wait():
+    url = "http://localhost:8080"
+    print("[Jarvis App] Abriendo Dashboard como aplicación nativa...")
+    
+    edge_paths = [
+        r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+        r"C:\Program Files\Microsoft\Edge\Application\msedge.exe"
+    ]
+    chrome_paths = [
+        r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+        r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+    ]
+    
+    for path in edge_paths + chrome_paths:
+        if os.path.exists(path):
+            try:
+                proc = subprocess.Popen([path, f"--app={url}"])
+                proc.wait() # Bloquea hasta que el usuario cierre la ventana de Jarvis
+                return
+            except Exception as e:
+                print(f"Error lanzando navegador: {e}")
+                
+    # Fallback si no hay edge ni chrome
+    webbrowser.open(url)
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        pass
+
 def main():
     java_proc = start_java_backend()
     
@@ -173,18 +202,8 @@ def main():
     print("[Jarvis App] Esperando a que Java responda...")
     time.sleep(5)
     
-    # Open dashboard in user's default browser!
-    print("[Jarvis App] Abriendo Dashboard en el navegador...")
-    webbrowser.open("http://localhost:8080")
-    
-    # Show tiny control window to keep app alive
-    root = tk.Tk()
-    root.title("Jarvis Activo")
-    root.geometry("350x150")
-    root.configure(bg="#111111")
-    tk.Label(root, text="🔴 El Sistema Jarvis está ejecutándose.\n\nPuedes interactuar desde tu navegador web.\n\nCierra esta ventana para apagar todos los sistemas.", fg="#ff0000", bg="#111111", font=("Segoe UI", 10)).pack(expand=True)
-    root.eval('tk::PlaceWindow . center')
-    root.mainloop()
+    # Lanza la GUI y bloquea hasta que se cierre
+    launch_dashboard_and_wait()
     
     print("[Jarvis App] Cerrando aplicación...")
     if java_proc:
