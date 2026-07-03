@@ -35,7 +35,7 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b 1
 )
 
-:: Mostrar versión de Java encontrada
+:: Mostrar versión de Java encontrada sdasdadsas
 echo.
 echo Version de Java detectada:
 java -version
