@@ -18,13 +18,13 @@ Jarvis ha evolucionado a una arquitectura Standalone (Todo en Uno). Al ejecutar 
 
 ¡Olvídate de los scripts `.bat`! Iniciar a Juan ahora es cuestión de dos clics.
 
-### Pasos de Ejecución
-1. Ve a la carpeta `d:\jarvis2\python-daemon\dist\Jarvis\`.
+### Pasos de Ejecución (Para cualquier PC)
+1. **Descomprimir**: Si acabas de descargar a Jarvis, asegúrate de **extraer** todo el contenido del archivo `Jarvis_Portable.zip` en una carpeta. (¡No lo ejecutes desde dentro del ZIP!).
 2. Haz doble clic en el archivo **`Jarvis.exe`**.
-3. **Pantalla de Configuración**: Si es la primera vez que lo abres (o si borraste la configuración), la interfaz gráfica arrojará una ventana flotante de BIENVENIDA pidiéndote tu API Key de OpenRouter.
-4. **Ingresar la Clave**: Pega tu API Key (por ejemplo, `sk-or-v1-...`) y haz clic en **Guardar e Iniciar**.
-5. **Reinicio Rápido**: El sistema te pedirá que **cierres la ventana y vuelvas a abrir el ejecutable** para que el Cerebro Neuronal se conecte correctamente a internet con tu nueva clave.
-6. ¡Listo! Al reabrir, escucharás la voz de Juan diciendo: *"Hola, soy Juan. Iniciando sistemas"*.
+3. **Pantalla de Configuración Nativa**: Si es la primera vez que lo abres (o si borraste tu llave), aparecerá de inmediato una ventanita clásica de Windows pidiéndote tu API Key de OpenRouter.
+4. **Ingresar la Clave**: Pega tu API Key (por ejemplo, `sk-or-v1-...`) y pulsa Aceptar.
+5. **Arranque Inmediato**: Jarvis guardará automáticamente tu llave en un archivo oculto `.env` y encenderá todos los motores sin que tengas que reiniciar nada.
+6. ¡Listo! Verás el panel de control y escucharás la voz de Juan diciendo: *"Hola, soy Juan. Iniciando sistemas"*.
 
 ---
 
