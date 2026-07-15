@@ -6,6 +6,8 @@ import time
 import json
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import webbrowser
+import tkinter as tk
+from tkinter import simpledialog, messagebox
 from main import PythonDaemon
 
 if getattr(sys, 'frozen', False):
@@ -67,6 +69,27 @@ def save_api_key_logic(key):
     except Exception as e:
         print(f"Error guardando API key: {e}")
         return False
+
+def prompt_api_key_gui():
+    root = tk.Tk()
+    root.withdraw() # Hide the main window
+    
+    while True:
+        key = simpledialog.askstring("Configuración Inicial de Jarvis", 
+                                     "¡Bienvenido a Jarvis!\n\nNo se detectó el archivo .env.\nPor favor, ingresa tu API Key de OpenRouter para continuar:",
+                                     parent=root)
+        if key is None:
+            # User cancelled
+            resp = messagebox.askyesno("Salir", "¿Estás seguro de que deseas salir? Jarvis necesita la API Key para funcionar.")
+            if resp:
+                sys.exit(0)
+        elif key.strip() == "":
+            messagebox.showerror("Error", "La API Key no puede estar vacía.")
+        else:
+            save_api_key_logic(key)
+            messagebox.showinfo("Éxito", "La API Key se ha guardado correctamente. Iniciando Jarvis...")
+            break
+    root.destroy()
 
 def run_python_daemon():
     print("[Jarvis App] Iniciando Sistema Nervioso (Python)...")
@@ -194,6 +217,9 @@ def launch_dashboard_and_wait():
         traceback.print_exc()
 
 def main():
+    if not has_api_key_logic():
+        prompt_api_key_gui()
+        
     java_proc = start_java_backend()
     
     # Start API server for frontend

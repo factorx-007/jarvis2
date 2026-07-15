@@ -13,4 +13,8 @@ mkdir dist\Jarvis\java-core\target 2>nul
 copy /Y ..\java-core\target\core-0.0.1-SNAPSHOT.jar dist\Jarvis\java-core\target\ >nul
 xcopy /E /I /Q /Y ..\4-dashboard-rostro dist\Jarvis\4-dashboard-rostro >nul
 if exist .env copy /Y .env dist\Jarvis\ >nul
-echo [OK] Proceso completado. El ejecutable está en dist\Jarvis\Jarvis.exe
+echo Empaquetando todo en Jarvis_Portable.zip (esto puede tardar unos segundos)...
+powershell -Command "if (Test-Path 'dist\Jarvis_Portable.zip') { Remove-Item 'dist\Jarvis_Portable.zip' }; Compress-Archive -Path 'dist\Jarvis\*' -DestinationPath 'dist\Jarvis_Portable.zip' -Force"
+echo [OK] Proceso completado. 
+echo La carpeta extraida esta en: dist\Jarvis\
+echo El archivo comprimido final esta en: dist\Jarvis_Portable.zip
