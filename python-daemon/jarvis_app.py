@@ -6,8 +6,6 @@ import time
 import json
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import webbrowser
-import tkinter as tk
-from tkinter import simpledialog, messagebox
 from main import PythonDaemon
 
 if getattr(sys, 'frozen', False):
@@ -71,25 +69,35 @@ def save_api_key_logic(key):
         return False
 
 def prompt_api_key_gui():
-    root = tk.Tk()
-    root.withdraw() # Hide the main window
-    
-    while True:
-        key = simpledialog.askstring("Configuración Inicial de Jarvis", 
-                                     "¡Bienvenido a Jarvis!\n\nNo se detectó el archivo .env.\nPor favor, ingresa tu API Key de OpenRouter para continuar:",
-                                     parent=root)
-        if key is None:
-            # User cancelled
-            resp = messagebox.askyesno("Salir", "¿Estás seguro de que deseas salir? Jarvis necesita la API Key para funcionar.")
-            if resp:
-                sys.exit(0)
-        elif key.strip() == "":
-            messagebox.showerror("Error", "La API Key no puede estar vacía.")
+    import ctypes
+    vbs_code = """
+Dim key
+key = InputBox("No se detectó el archivo .env." & vbCrLf & "Por favor, ingresa tu API Key de OpenRouter para continuar:", "Configuración Inicial de Jarvis")
+If key = "" Then
+    WScript.Quit 1
+End If
+WScript.Echo key
+"""
+    vbs_path = os.path.join(base_dir, "prompt_key.vbs")
+    try:
+        with open(vbs_path, "w", encoding="utf-8") as f:
+            f.write(vbs_code)
+        
+        proc = subprocess.Popen(["cscript", "//nologo", vbs_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, creationflags=subprocess.CREATE_NO_WINDOW)
+        stdout, _ = proc.communicate()
+        
+        if proc.returncode == 0 and stdout.strip():
+            save_api_key_logic(stdout.strip())
+            ctypes.windll.user32.MessageBoxW(0, "La API Key se ha guardado correctamente. Iniciando Jarvis...", "Éxito", 0x40)
         else:
-            save_api_key_logic(key)
-            messagebox.showinfo("Éxito", "La API Key se ha guardado correctamente. Iniciando Jarvis...")
-            break
-    root.destroy()
+            resp = ctypes.windll.user32.MessageBoxW(0, "¿Estás seguro de que deseas salir? Jarvis necesita la API Key para funcionar.", "Salir", 0x24)
+            if resp == 6: # IDYES
+                sys.exit(0)
+            else:
+                prompt_api_key_gui()
+    except Exception as e:
+        print(f"Error con VBS prompt: {e}")
+        sys.exit(1)
 
 def run_python_daemon():
     print("[Jarvis App] Iniciando Sistema Nervioso (Python)...")
