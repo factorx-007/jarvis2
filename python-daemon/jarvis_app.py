@@ -54,8 +54,11 @@ def has_api_key_logic():
     env_path = os.path.join(project_root, ".env")
     if os.path.exists(env_path):
         with open(env_path, "r", encoding="utf-8") as f:
-            if "OPENROUTER_API_KEY=" in f.read():
-                return True
+            for line in f:
+                if line.startswith("OPENROUTER_API_KEY="):
+                    val = line.split("=", 1)[1].strip().strip('"').strip("'")
+                    if len(val) > 10:
+                        return True
     return False
 
 def save_api_key_logic(key):
@@ -136,21 +139,30 @@ class ApiHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({"has_key": has_api_key_logic()}).encode('utf-8'))
 
     def do_POST(self):
-        self.send_response(200)
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
-        
         if self.path == '/api/save_key':
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
             data = json.loads(post_data)
             key = data.get("key", "")
             success = save_api_key_logic(key)
+            
+            self.send_response(200)
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
             self.wfile.write(json.dumps({"success": success}).encode('utf-8'))
+            
         elif self.path == '/api/start_python':
             res = start_python_logic()
+            
+            self.send_response(200)
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
             self.wfile.write(json.dumps({"status": res}).encode('utf-8'))
+        else:
+            self.send_response(404)
+            self.end_headers()
 
 def run_server():
     server = HTTPServer(('localhost', 8081), ApiHandler)
